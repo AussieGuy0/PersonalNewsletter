@@ -1,1 +1,1 @@
-# PersonalNewsletter
+# Personal Newsletter
