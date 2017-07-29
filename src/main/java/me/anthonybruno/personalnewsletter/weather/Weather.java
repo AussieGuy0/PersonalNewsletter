@@ -9,4 +9,17 @@ public class Weather {
         this.temp = temp;
         this.type = type;
     }
+
+    public int getTemp() {
+        return temp;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    @Override
+    public String toString() {
+        return temp + "C " + type;
+    }
 }
