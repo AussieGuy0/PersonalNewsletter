@@ -1,4 +1,4 @@
-package me.anthonybruno.personalnewsletter;
+package me.anthonybruno.personalnewsletter.response;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;

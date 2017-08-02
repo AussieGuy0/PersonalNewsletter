@@ -1,4 +1,4 @@
-package me.anthonybruno.personalnewsletter;
+package me.anthonybruno.personalnewsletter.response;
 
 import me.anthonybruno.personalnewsletter.util.IOUtils;
 import org.apache.http.HttpResponse;

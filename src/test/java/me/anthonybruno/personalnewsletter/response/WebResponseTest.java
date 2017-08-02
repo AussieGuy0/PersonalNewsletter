@@ -1,6 +1,6 @@
-package me.anthonybruno.personalnewsletter;
+package me.anthonybruno.personalnewsletter.response;
 
-import me.anthonybruno.personalnewsletter.web.HttpResponseMock;
+import me.anthonybruno.personalnewsletter.response.mock.HttpResponseMock;
 import org.apache.http.HttpResponse;
 import org.junit.Test;
 

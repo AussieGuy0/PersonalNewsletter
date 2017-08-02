@@ -1,4 +1,4 @@
-package me.anthonybruno.personalnewsletter.web;
+package me.anthonybruno.personalnewsletter.response.mock;
 
 import org.apache.http.Header;
 import org.apache.http.HttpEntity;

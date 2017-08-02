@@ -1,8 +1,8 @@
-package me.anthonybruno.personalnewsletter;
+package me.anthonybruno.personalnewsletter.response;
 
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import me.anthonybruno.personalnewsletter.web.HttpResponseMock;
+import me.anthonybruno.personalnewsletter.response.mock.HttpResponseMock;
 import org.apache.http.HttpResponse;
 import org.junit.Test;
 

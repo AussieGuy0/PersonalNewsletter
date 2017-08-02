@@ -2,7 +2,9 @@ package me.anthonybruno.personalnewsletter.weather;
 
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import me.anthonybruno.personalnewsletter.JsonResponse;
+import me.anthonybruno.personalnewsletter.response.JsonResponse;
+import me.anthonybruno.personalnewsletter.weather.model.Location;
+import me.anthonybruno.personalnewsletter.weather.model.Weather;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpUriRequest;

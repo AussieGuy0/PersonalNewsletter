@@ -1,4 +1,4 @@
-package me.anthonybruno.personalnewsletter.weather;
+package me.anthonybruno.personalnewsletter.weather.model;
 
 public class Location {
 

@@ -8,11 +8,11 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import java.util.Properties;
 
-public class Gmail implements EmailService {
+public class GmailService implements EmailService {
 
     private final EmailConfig emailConfig;
 
-    public Gmail(EmailConfig emailConfig) {
+    public GmailService(EmailConfig emailConfig) {
        this.emailConfig = emailConfig;
     }
 

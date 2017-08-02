@@ -1,5 +1,8 @@
 package me.anthonybruno.personalnewsletter.weather;
 
+import me.anthonybruno.personalnewsletter.weather.model.Location;
+import me.anthonybruno.personalnewsletter.weather.model.Weather;
+
 import java.util.Date;
 import java.util.List;
 
