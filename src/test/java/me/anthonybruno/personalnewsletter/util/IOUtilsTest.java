@@ -1,13 +1,12 @@
 package me.anthonybruno.personalnewsletter.util;
 
-import org.junit.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import java.io.BufferedInputStream;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
-import java.io.StringReader;
 
-import static org.junit.Assert.assertEquals;
+import org.junit.jupiter.api.Test;
+
 
 public class IOUtilsTest {
 

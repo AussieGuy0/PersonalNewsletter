@@ -2,19 +2,19 @@ package me.anthonybruno.personalnewsletter.weather;
 
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import me.anthonybruno.personalnewsletter.response.JsonResponse;
+
+import me.anthonybruno.personalnewsletter.response.JsonBodyHandler;
 import me.anthonybruno.personalnewsletter.weather.model.Location;
 import me.anthonybruno.personalnewsletter.weather.model.Weather;
-import org.apache.http.client.methods.CloseableHttpResponse;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.methods.HttpUriRequest;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClientBuilder;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.io.IOException;
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
+import java.time.Duration;
+import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 public class OpenWeatherApiService implements WeatherService {
@@ -23,7 +23,7 @@ public class OpenWeatherApiService implements WeatherService {
     private static final String CURRENT_WEATHER_URL = BASE_URL + "weather?lat={lat}&lon={lon}&APPID={appId}&units=metric"; //TODO: Make units settable
     private static final String FORECAST_URL = BASE_URL + "forecast?lat={lat}&lon={lon}&APPID={appId}&units=metric"; //TODO: Make units settable
 
-    private CloseableHttpClient httpClient =  HttpClientBuilder.create().build();
+    private HttpClient httpClient = HttpClient.newBuilder().connectTimeout(Duration.ofSeconds(4)).build();
     private final String apiKey;
 
     public OpenWeatherApiService(String apiKey) {
@@ -33,39 +33,31 @@ public class OpenWeatherApiService implements WeatherService {
 
     @Override
     public Weather getTodaysWeather(Location location) {
-        Weather weather;
-        HttpUriRequest request = new HttpGet(createUrl(CURRENT_WEATHER_URL, location.getLatitude(), location.getLongitude()));
+        HttpRequest request = createGetRequest(CURRENT_WEATHER_URL, location);
         try {
-            try (CloseableHttpResponse r = httpClient.execute(request)) {
-                JsonResponse<ObjectNode> response = new JsonResponse<>(r);
-                ObjectNode node = response.getJson();
-                weather = convertResponseObjectToWeather(node);
-            }
-        } catch (IOException e) {
-            throw new IllegalArgumentException(e);
+            HttpResponse<ObjectNode> response = httpClient.send(request, new JsonBodyHandler<>());
+            return convertResponseObjectToWeather(response.body());
+        } catch (IOException | InterruptedException e) {
+            throw new RuntimeException(e);
         }
-        return weather;
     }
 
     @Override
-    public Weather getWeatherOnDate(Date date, Location location) { //TODO: This
-        throw new NotImplementedException();
+    public Weather getWeatherOnDate(LocalDate date, Location location) { //TODO: This
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public List<Weather> getWeekForecast(Location location) {
         List<Weather> list = new ArrayList<>();
-        HttpUriRequest request = new HttpGet(createUrl(FORECAST_URL, location.getLatitude(), location.getLongitude()));
+        HttpRequest request = createGetRequest(FORECAST_URL, location);
         try {
-            try (CloseableHttpResponse r = httpClient.execute(request)) {
-                JsonResponse<ObjectNode> response = new JsonResponse<>(r);
-                ObjectNode node = response.getJson();
+                HttpResponse<ObjectNode> response = httpClient.send(request, new JsonBodyHandler<>());
+                ObjectNode node = response.body();
                 ArrayNode weatherNodeList = (ArrayNode) node.get("list");
-
                 weatherNodeList.forEach(o -> list.add(convertResponseObjectToWeather((ObjectNode) o))); //FIXME: Filter so only one weather per day
-            }
-        } catch (IOException e) {
-            throw new IllegalArgumentException(e);
+        } catch (IOException | InterruptedException e) {
+            throw new RuntimeException(e);
         }
         return list;
     }
@@ -80,8 +72,9 @@ public class OpenWeatherApiService implements WeatherService {
         return url.replace("{lat}", latitude + "").replace("{lon}", longitude + "").replace("{appId}", apiKey);
     }
 
-    private HttpGet createGetRequest(String url, Location location) {
-       return new HttpGet(createUrl(url, location.getLatitude(), location.getLongitude()));
+    private HttpRequest createGetRequest(String url, Location location) {
+        URI uri = URI.create(createUrl(url, location.getLatitude(), location.getLongitude()));
+        return HttpRequest.newBuilder(uri).GET().build();
     }
 
 }

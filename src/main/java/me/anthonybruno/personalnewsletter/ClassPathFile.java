@@ -7,7 +7,7 @@ public class ClassPathFile {
     private final String resourceName;
 
     public ClassPathFile(String resourceName) {
-       this.resourceName = resourceName;
+        this.resourceName = resourceName;
     }
 
     public File getFile() {

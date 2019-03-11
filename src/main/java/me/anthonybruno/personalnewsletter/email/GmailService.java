@@ -13,7 +13,7 @@ public class GmailService implements EmailService {
     private final EmailConfig emailConfig;
 
     public GmailService(EmailConfig emailConfig) {
-       this.emailConfig = emailConfig;
+        this.emailConfig = emailConfig;
     }
 
     public void sendEmail(String toAddress, String subject, String body) {
@@ -38,7 +38,7 @@ public class GmailService implements EmailService {
             message.setText(body);
 
             Transport transport = session.getTransport("smtp");
-            transport.connect(host,emailConfig.getUsername() , emailConfig.getPassword());
+            transport.connect(host, emailConfig.getUsername(), emailConfig.getPassword());
             transport.sendMessage(message, message.getAllRecipients());
             transport.close();
         } catch (MessagingException me) {

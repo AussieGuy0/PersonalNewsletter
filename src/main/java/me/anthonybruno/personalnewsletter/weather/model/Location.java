@@ -2,7 +2,7 @@ package me.anthonybruno.personalnewsletter.weather.model;
 
 public class Location {
 
-    public static final String NO_NAME = "unnamed";
+    private static final String NO_NAME = "unnamed";
 
     private final String name;
     private final double longitude;
