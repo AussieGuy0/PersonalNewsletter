@@ -1,5 +1,6 @@
 package me.anthonybruno.personalnewsletter.weather;
 
+import me.anthonybruno.personalnewsletter.weather.model.Forecast;
 import me.anthonybruno.personalnewsletter.weather.model.Location;
 import me.anthonybruno.personalnewsletter.weather.model.Weather;
 
@@ -13,5 +14,5 @@ public interface WeatherService {
 
     Weather getWeatherOnDate(LocalDate date, Location location);
 
-    List<Weather> getWeekForecast(Location location);
+    Forecast getWeekForecast(Location location);
 }

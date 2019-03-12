@@ -1,5 +1,8 @@
 package me.anthonybruno.personalnewsletter.weather.model;
 
+import java.time.ZoneId;
+import java.time.ZoneOffset;
+
 public class Location {
 
     private static final String NO_NAME = "unnamed";
@@ -25,5 +28,9 @@ public class Location {
 
     public double getLongitude() {
         return longitude;
+    }
+
+    public ZoneId getTimeZone() {
+        return ZoneOffset.ofHoursMinutes(9, 30); //FIXME: Hardcoded!
     }
 }
