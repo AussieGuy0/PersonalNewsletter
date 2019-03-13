@@ -1,4 +1,4 @@
-package me.anthonybruno.personalnewsletter.weather.model;
+package me.anthonybruno.personalnewsletter.connector.weather.model;
 
 public class Weather {
 

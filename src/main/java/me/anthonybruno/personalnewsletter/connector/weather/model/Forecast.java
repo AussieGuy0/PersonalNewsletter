@@ -1,4 +1,4 @@
-package me.anthonybruno.personalnewsletter.weather.model;
+package me.anthonybruno.personalnewsletter.connector.weather.model;
 
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
@@ -15,7 +15,11 @@ public class Forecast {
         weatherOnDates.add(new WeatherAndDate(weather, dateTime));
     }
 
-    private static class WeatherAndDate {
+    public List<WeatherAndDate> getWeatherList() {
+        return weatherOnDates;
+    }
+
+    public static class WeatherAndDate {
 
         private final Weather weather;
         private final ZonedDateTime date;
@@ -28,6 +32,14 @@ public class Forecast {
         @Override
         public String toString() {
             return  weather + "(" + date + ")";
+        }
+
+        public Weather getWeather() {
+            return weather;
+        }
+
+        public ZonedDateTime getDate() {
+            return date;
         }
     }
 

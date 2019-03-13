@@ -46,6 +46,11 @@
             <version>2.9.8</version>
         </dependency>
         <dependency>
+            <groupId>com.taskadapter</groupId>
+            <artifactId>trello-java-wrapper</artifactId>
+            <version>0.13</version>
+        </dependency>
+        <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter</artifactId>
             <version>5.4.0</version>

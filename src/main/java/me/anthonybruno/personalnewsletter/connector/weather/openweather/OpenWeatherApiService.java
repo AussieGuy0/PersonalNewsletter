@@ -1,14 +1,14 @@
-package me.anthonybruno.personalnewsletter.weather.openweather;
+package me.anthonybruno.personalnewsletter.connector.weather.openweather;
 
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
 import me.anthonybruno.personalnewsletter.response.JsonBodyHandler;
 import me.anthonybruno.personalnewsletter.util.UrlBuilder;
-import me.anthonybruno.personalnewsletter.weather.WeatherService;
-import me.anthonybruno.personalnewsletter.weather.model.Forecast;
-import me.anthonybruno.personalnewsletter.weather.model.Location;
-import me.anthonybruno.personalnewsletter.weather.model.Weather;
+import me.anthonybruno.personalnewsletter.connector.weather.WeatherService;
+import me.anthonybruno.personalnewsletter.connector.weather.model.Forecast;
+import me.anthonybruno.personalnewsletter.connector.weather.model.City;
+import me.anthonybruno.personalnewsletter.connector.weather.model.Weather;
 
 import java.io.IOException;
 import java.net.URI;
@@ -16,9 +16,7 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.time.*;
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 public class OpenWeatherApiService implements WeatherService {
@@ -36,7 +34,7 @@ public class OpenWeatherApiService implements WeatherService {
 
 
     @Override
-    public Weather getTodaysWeather(Location location) {
+    public Weather getCurrentWeather(City location) {
         HttpRequest request = createGetRequest(CURRENT_WEATHER_URL, location);
         try {
             HttpResponse<ObjectNode> response = httpClient.send(request, new JsonBodyHandler<>());
@@ -47,12 +45,12 @@ public class OpenWeatherApiService implements WeatherService {
     }
 
     @Override
-    public Weather getWeatherOnDate(LocalDate date, Location location) { //TODO: This
+    public Weather getWeatherOnDate(LocalDate date, City location) { //TODO: This
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public Forecast getWeekForecast(Location location) {
+    public Forecast getWeekForecast(City location) {
         Forecast forecast = new Forecast();
         HttpRequest request = createGetRequest(FORECAST_URL, location);
         try {
@@ -82,17 +80,21 @@ public class OpenWeatherApiService implements WeatherService {
         return new Weather(temp, type);
     }
 
-    private URI createUrl(String url, double latitude, double longitude) {
+    private URI createUrl(String url, City location) {
         UrlBuilder urlBuilder = new UrlBuilder(url);
-        urlBuilder.setUrlParam("lat", String.valueOf(latitude));
-        urlBuilder.setUrlParam("lon", String.valueOf(longitude));
+        if (location.getName() != null && location.getCountryCode() != null) {
+            urlBuilder.setUrlParam("q", location.getName() + "," + location.getCountryCode());
+        } else {
+            urlBuilder.setUrlParam("lat", String.valueOf(location.getLatitude()));
+            urlBuilder.setUrlParam("lon", String.valueOf(location.getLongitude()));
+        }
         urlBuilder.setUrlParam("APPID", apiKey);
         urlBuilder.setUrlParam("units", "metric");
         return urlBuilder.build();
     }
 
-    private HttpRequest createGetRequest(String url, Location location) {
-        URI uri = createUrl(url, location.getLatitude(), location.getLongitude());
+    private HttpRequest createGetRequest(String url, City location) {
+        URI uri = createUrl(url, location);
         return HttpRequest.newBuilder(uri).GET().build();
     }
 

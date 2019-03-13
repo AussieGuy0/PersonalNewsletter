@@ -1,25 +1,25 @@
-package me.anthonybruno.personalnewsletter.weather.model;
+package me.anthonybruno.personalnewsletter.connector.weather.model;
 
 import java.time.ZoneId;
 import java.time.ZoneOffset;
 
-public class Location {
-
-    private static final String NO_NAME = "unnamed";
+public class City {
 
     private final String name;
+    private final String country;
     private final double longitude;
     private final double latitude;
 
 
-    public Location(String name, double latitude, double longitude) {
+    public City(String name, String country, double latitude, double longitude) {
         this.name = name;
+        this.country = country;
         this.latitude = latitude;
         this.longitude = longitude;
     }
 
-    public Location(double latitude, double longitude) {
-        this(NO_NAME, latitude, longitude);
+    public City(double latitude, double longitude) {
+        this(null, null, latitude, longitude);
     }
 
     public double getLatitude() {
@@ -32,5 +32,13 @@ public class Location {
 
     public ZoneId getTimeZone() {
         return ZoneOffset.ofHoursMinutes(9, 30); //FIXME: Hardcoded!
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getCountryCode() {
+        return country;
     }
 }
